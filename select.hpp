@@ -55,6 +55,29 @@ class Select_Contains : public Select_Column
 	return false;
 }
 };
+
+class Select_Not: public Select {
+    protected:
+	Select* con;
+    public:
+	Select_Not(Select* var) {
+		con = var;
+	}
+	
+	virtual bool select(const Spreadsheet* sheet, int row) const {
+		if(con->select(sheet,row) == true) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+	
+	virtual ~Select_Not() {
+		delete con;
+	}
+};
+
 class Select_And : public Select {
    protected:
     Select* and1;
